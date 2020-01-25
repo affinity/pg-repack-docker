@@ -1,4 +1,4 @@
-FROM postgres:10
+FROM postgres:9.6
 
 RUN apt-get update --fix-missing && \
     apt-get install -y postgresql-server-dev-$PG_MAJOR wget openssh-server
