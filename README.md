@@ -7,14 +7,16 @@ Reference: https://github.com/reorg/pg_repack
 
 This has been modified to use the version of postgres we're using in prod and to match the version of pg_repack available on RDS.
 
+The following commands depend on having the version you want to use and tag in the following env var:
+
+    TAG_VERSION=1.4.5
 
 ### build
 
-    docker build . -t pg-repack:1.4.5
+    docker build . -t pg-repack:$TAG_VERSION
 
 ### push to ECR
 
-    TAG_VERSION=1.4.5
     aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 798215447140.dkr.ecr.us-west-2.amazonaws.com
     docker tag pg_repack:$TAG_VERSION 798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:$TAG_VERSION
     docker push 798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:$TAG_VERSION
