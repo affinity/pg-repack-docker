@@ -23,5 +23,5 @@ The following commands depend on having the version you want to use and tag in t
     
 ### run (example)
     
-    docker run -e PGPASSWORD=secret -it --rm 798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 pg_repack -h localhost -p 5430 -U affinity --dbname=affinity --dry-run --no-superuser-check
+    kubectl run pgrepack -i --tty --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h staging-affinity.cfp10aet8axk.us-west-2.rds.amazonaws.com -p 5432 -U affinity --dbname=affinity --no-superuser-check
 
