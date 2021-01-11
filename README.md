@@ -11,17 +11,22 @@ The following commands depend on having the version you want to use and tag in t
 
     TAG_VERSION=1.4.5
 
-### build
+### Build
 
     docker build . -t pg-repack:$TAG_VERSION
 
-### push to ECR
+### Push to ECR
 
     aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 798215447140.dkr.ecr.us-west-2.amazonaws.com
     docker tag pg_repack:$TAG_VERSION 798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:$TAG_VERSION
     docker push 798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:$TAG_VERSION
     
-### run (example)
+### Run
+    
+    # All tables:
     
     kubectl run pgrepack -i --tty --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h staging-affinity.cfp10aet8axk.us-west-2.rds.amazonaws.com -p 5432 -U affinity --dbname=affinity --no-superuser-check
 
+    # single table
+    
+    kubectl run pgrepack -i --tty --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h staging-affinity.cfp10aet8axk.us-west-2.rds.amazonaws.com -p 5432 -U affinity --dbname=affinity --no-superuser-check --table <tableName>    
