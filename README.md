@@ -25,13 +25,13 @@ The following commands depend on having the version you want to use and tag in t
     
     # All tables:
     
-    kubectl run pgrepack --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h staging-affinity.cfp10aet8axk.us-west-2.rds.amazonaws.com -p 5432 -U affinity --dbname=affinity --no-superuser-check
+    kubectl run pgrepack --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h <db-url> -p 5432 -U affinity --dbname=affinity --no-superuser-check -j 4
 
     # single table
     
-    kubectl run pgrepack --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h staging-affinity.cfp10aet8axk.us-west-2.rds.amazonaws.com -p 5432 -U affinity --dbname=affinity --no-superuser-check --table <tableName>    
+    kubectl run pgrepack --env="PGPASSWORD=<password>" --image=798215447140.dkr.ecr.us-west-2.amazonaws.com/pg_repack:1.4.5 --restart=Never pg_repack -- -h <db-url> -p 5432 -U affinity --dbname=affinity --no-superuser-check -j 4 --table <tableName>    
     
 ### Monitoring
 
 You can follow progress of the repack using `kubectl logs -f pgrepack`
-If you need to stop the repack for whatever reason (space is getting too low for example), you can kill the pod using `kubectl delete pod pgrepack` and it will clean up after itself.
+If you need to stop the repack for whatever reason (space is getting too low for example), you can kill the pod using `kubectl delete pod pgrepack` and it will ususally clean up after itself. If it didn't, you can cleanup by removing the pg_repack extension and then reinstalling, that forces it to clean itself up.
